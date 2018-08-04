@@ -64,7 +64,7 @@ $file = basename(__FILE__);
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header card-header-primary">
-                                <h4 class="card-title ">Tous les paiements</h4>
+                                <h4 class="card-title pull-right">Tous les paiements</h4>
                                 <p class="card-category"> </p>
                             </div>
                             <div class="card-body">
@@ -97,7 +97,7 @@ $file = basename(__FILE__);
                                                     <td>
                                                         <button onclick="supprimerPaiementAlert(<?=$paiement['id']?>)" type="button" id="btnDelete" rel="tooltip"
                                                                 class="btn btn-link btn-primary"><i
-                                                                    class="material-icons" >delete</i>
+                                                                    class="material-icons" style="color: #47a44b">delete</i>
                                                             <div class="ripple-container"></div>
                                                         </button>
                                                     </td>

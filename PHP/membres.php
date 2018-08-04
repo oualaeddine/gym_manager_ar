@@ -14,6 +14,38 @@ $file = basename(__FILE__);
         $id = $_POST['id'];
         echo supprimerMembre($id);
         exit;
+    } else if (isset($_GET['ajouterPaiement'])) {
+        include 'functions.php';
+        $id = $_POST['membreTaaLePaiement'];
+        $select = $_POST['paiement'];
+        switch ($select){
+            case "1":
+                $montant = 1500;
+                $typeAbo = 'sansCardio';
+                break;
+            case "2":
+                $montant = 2000;
+                $typeAbo = 'avecCardio';
+                break;
+            default:
+                $montant = 0;
+                $typeAbo = null;
+        }
+        if (ajouterPaiement($id, $montant, $typeAbo)) {
+            ?>
+            <script>
+                alert('نجاح !');
+                window.location.href = "membres.php";
+            </script>
+            <?php
+        } else {
+            ?>
+            <script>
+                alert('خطأ');
+                window.location.href = "membres.php";
+            </script>
+            <?php
+        }
     }
 ?>
     <!DOCTYPE html>
@@ -64,7 +96,7 @@ $file = basename(__FILE__);
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header card-header-primary">
-                                    <h4 class="card-title ">كل المشتركين</h4>
+                                    <h4 class="card-title pull-right">كل المشتركين</h4>
                                     <p class="card-category"> </p>
                                 </div>
                                 <div class="card-body">
@@ -97,12 +129,10 @@ $file = basename(__FILE__);
                                                             <td><?= $membre['typePI'] ?></td>
                                                             <td><?= $membre['numPI'] ?></td>
                                                             <td>
-                                                                <a href="ajouterPaiement.php?id=<?= $membre['id'] ?>">
-                                                                    <button class="btn btn-primary"> اضافة دفع </button>
-                                                                </a>
+                                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="getMembreId(<?= $membre['id'] ?>)"> اضافة دفع </button>
                                                                 <button onclick="supprimerUserAlert(<?=$membre['id']?>)" type="button" id="btnDelete" rel="tooltip"
-                                                                        class="btn btn-link btn-primary"><i
-                                                                            class="material-icons" >delete</i>
+                                                                        class="btn btn-link"><i
+                                                                            class="material-icons" style="color: #47a44b">delete</i>
                                                                     <div class="ripple-container"></div>
                                                                 </button>
                                                             </td>
@@ -128,6 +158,37 @@ $file = basename(__FILE__);
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <form id="ajouterPaiementForm" method="post" action="membres.php?ajouterPaiement=true">
+                            <div class="row">
+                                <input type="hidden" name="membreTaaLePaiement" id="membreTaaLePaiement">
+                                <select class="custom-select" name="paiement">
+                                    <option value="0">- اختيار نوع الاشتراك -</option>
+                                    <option value="1">1500DA | Sans cardio</option>
+                                    <option value="2">2000DA | Avec cardio</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                    <button type="submit" form="ajouterPaiementForm" class="btn btn-primary" >حفظ</button>
+                </div>
+            </div>
         </div>
     </div>
     <!--   Core JS Files   -->
@@ -177,6 +238,9 @@ $file = basename(__FILE__);
         });
     </script>
     <script>
+        function getMembreId(idTaaLeMembre){
+            document.getElementById("membreTaaLePaiement").value = idTaaLeMembre;
+        }
         function supprimerUserAlert(id){
             swal({
                 title: 'Êtes vous sur ?',

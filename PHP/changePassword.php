@@ -52,11 +52,10 @@ $file = basename(__FILE__);
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header card-header-primary">
-                                <h4 class="card-title">تغيير الكلمة السرية </h4>
+                                <h4 class="card-title pull-right">تغيير الكلمة السرية </h4>
 
-                                <p class="card-category"> ادخل الكلمة السرية الجديدة</p>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body pull-right">
                                 <form action="changePassword.php" method="post">
                                     <div class="row">
                                         <div class="col-md-6">

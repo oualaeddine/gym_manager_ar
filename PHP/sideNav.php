@@ -28,6 +28,12 @@ include 'functions.php';
                     <p>الصفحة الرئسية</p>
                 </a>
             </li>
+            <li class="<?= ($file == "selectionnerMembre.php" || $file=="ajouterPaiement.php") ? 'nav-item active' : 'nav-item' ?>">
+                <a class="nav-link" href="./selectionnerMembre.php">
+                    <i class="material-icons">library_add</i>
+                    <p>  اضافة دفع</p>
+                </a>
+            </li>
             <li class="<?= ($file == "ajouterMembre.php") ? 'nav-item active' : 'nav-item' ?>">
                 <a class="nav-link" href="./ajouterMembre.php">
                     <i class="material-icons">person_add</i>
@@ -44,12 +50,6 @@ include 'functions.php';
                 <a class="nav-link" href="./paiements.php">
                     <i class="material-icons">content_paste</i>
                     <p>قائمة الدفع</p>
-                </a>
-            </li>
-            <li class="<?= ($file == "selectionnerMembre.php" || $file=="ajouterPaiement.php") ? 'nav-item active' : 'nav-item' ?>">
-                <a class="nav-link" href="./selectionnerMembre.php">
-                    <i class="material-icons">library_add</i>
-                    <p>  اضافة دفع</p>
                 </a>
             </li>
             <li class="<?= ($file == "changePassword.php") ? 'nav-item active' : 'nav-item' ?>">

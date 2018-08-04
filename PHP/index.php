@@ -9,6 +9,40 @@
 session_start();
 if (isset($_SESSION['admin'])) {
     $file = basename(__FILE__);
+
+    if (isset($_GET['ajouterPaiement'])) {
+        include 'functions.php';
+        $id = $_POST['membreTaaLePaiement'];
+        $select = $_POST['paiement'];
+        switch ($select){
+            case "1":
+                $montant = 1500;
+                $typeAbo = 'sansCardio';
+                break;
+            case "2":
+                $montant = 2000;
+                $typeAbo = 'avecCardio';
+                break;
+            default:
+                $montant = 0;
+                $typeAbo = null;
+        }
+        if (ajouterPaiement($id, $montant, $typeAbo)) {
+            ?>
+            <script>
+                alert('نجاح !');
+                window.location.href = "index.php";
+            </script>
+            <?php
+        } else {
+            ?>
+            <script>
+                alert('خطأ');
+                window.location.href = "index.php";
+            </script>
+            <?php
+        }
+    }
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -62,10 +96,10 @@ if (isset($_SESSION['admin'])) {
                             <div class="card card-stats">
                                 <div class="card-header card-header-success card-header-icon">
                                     <div class="card-icon">
-                                        <i class="material-icons">store</i>
+                                        <i class="material-icons">attach_money</i>
                                     </div>
                                     <p class="card-category">الدخل الشهري</p>
-                                    <h3 class="card-title">  دج<?= getRevenusMensuels() ?> </h3>
+                                    <h3 class="card-title">دج<?= getRevenusMensuels() ?> </h3>
                                 </div>
                                 <div class="card-footer">
                                     <div class="stats">
@@ -96,9 +130,8 @@ if (isset($_SESSION['admin'])) {
 
                         <div class="col-lg-12 col-md-12">
                             <div class="card">
-                                <div class="card-header card-header-primary">
+                                <div class="card-header card-header-danger">
                                     <h4 class="card-title">Li lazem yselkou</h4>
-                                    <p class="card-category">Hedouk li khloss l'abonnement taahom</p>
                                 </div>
                                 <div class="card-body table-responsive">
                                     <?php
@@ -128,7 +161,7 @@ if (isset($_SESSION['admin'])) {
                                                     <td> <?= $membre['numeroTel'] ?> </td>
                                                     <td> <?= $membre['typePI'] ?> </td>
                                                     <td> <?= $membre['numPI'] ?> </td>
-                                                    <td> <a href="ajouterPaiement.php?id=<?= $membre['id'] ?>"><button class="btn btn-primary">اضافة دفع</button> </a> </td>
+                                                    <td> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="getMembreId(<?= $membre['id'] ?>)"> اضافة دفع </button> </a> </td>
                                                 </tr>
                                             <?php
                                             }
@@ -185,6 +218,38 @@ if (isset($_SESSION['admin'])) {
             </footer>
         </div>
     </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <form id="ajouterPaiementForm" method="post" action="index.php?ajouterPaiement=true">
+                            <div class="row">
+                                <input type="hidden" name="membreTaaLePaiement" id="membreTaaLePaiement">
+                                <select class="custom-select" name="paiement">
+                                    <option value="0">- اختيار نوع الاشتراك -</option>
+                                    <option value="1">1500DA | Sans cardio</option>
+                                    <option value="2">2000DA | Avec cardio</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                    <button type="submit" form="ajouterPaiementForm" class="btn btn-primary" >حفظ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--   Core JS Files   -->
     <script src="./assets/js/core/jquery.min.js" type="text/javascript"></script>
     <script src="./assets/js/core/popper.min.js" type="text/javascript"></script>
@@ -205,6 +270,11 @@ if (isset($_SESSION['admin'])) {
             md.initDashboardPageCharts();
 
         });
+    </script>
+    <script>
+        function getMembreId(idTaaLeMembre){
+            document.getElementById("membreTaaLePaiement").value = idTaaLeMembre;
+        }
     </script>
     </body>
 
