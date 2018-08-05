@@ -216,5 +216,9 @@ $file = basename(__FILE__);
 </html>
 
 <?php
+}else {
+    //echo "not logged in";
+    header('Location: ./login.php');
+    exit;
 }
 ?>

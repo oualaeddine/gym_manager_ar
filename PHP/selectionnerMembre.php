@@ -240,5 +240,9 @@ if (isset($_SESSION['admin'])) {
     </html>
 
     <?php
+}else {
+    //echo "not logged in";
+    header('Location: ./login.php');
+    exit;
 }
 ?>
